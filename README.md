@@ -47,7 +47,27 @@ print(ans)
 ### [상미](./근손실/상미.py)
 
 ```py
+import sys
+input = sys.stdin.readline
+from itertools import permutations
 
+N, K = map(int, input().split())
+added = list(map(int, input().split()))
+addedC = list(permutations(added, N))
+cnt = 0
+
+for i in addedC:
+    tmp = 0
+    flag = True
+    for n in range(N):
+        tmp += i[n]
+        tmp -= K
+        if tmp < 0:
+            flag = False
+            break
+    if flag:
+        cnt += 1
+print(cnt)
 ```
 
 ### [성구](./근손실/성구.py)
@@ -82,14 +102,14 @@ def main():
                     stack.append((visited.union(set([i])), w+w_list[i]))
 
         return cnt
-    
+
     # 모든 시작점에서 탐색
     ans = 0
     for i in range(N):
         ans += dfs(i)
 
     print(ans)
-    return 
+    return
 
 
 if __name__ == "__main__":
@@ -277,12 +297,12 @@ input = sys.stdin.readline
 def main():
     N, M = map(int, input().split())
     n, *is_know = map(int, input().split())
-    
+
     parties = []
     for i in range(M):
         _, *members = map(int, input().split())
         parties.append(sorted(members))
-    
+
     # 아는사람이 없으면 모든 파티에서 거짓말할 수 있음
     if n == 0:
         print(M)
@@ -290,8 +310,8 @@ def main():
         # union-find를 위한 부모 배열
         parent = [0] * (N+1)
         for i in range(1,N+1):
-            parent[i] = i  
-        
+            parent[i] = i
+
         # union
         def union(num1, num2):
             f1 = find(num1)
@@ -311,7 +331,7 @@ def main():
         for party in parties:
             for person in party[1:]:
                 union(party[0],person)
-        
+
         # set 을 통한 시간복잡도 절약
         known =set(is_know)
         for i in is_know:
@@ -326,8 +346,8 @@ def main():
                     break
         print(cnt)
 
-         
-    
+
+
     return
 
 
@@ -414,7 +434,7 @@ def main():
                 dp[i][j-1][0] += dp[i][j-2][0] + dp[i][j-2][2]
                 # 세로 방향 올 수 있음(세로, 대각선)
                 dp[i][j-1][1] += dp[i-1][j-1][1] + dp[i-1][j-1][2]
-            
+
             # 내 위치와 위, 아래가  1이 아니명
             if not (home[i][j] or home[i-1][j] or home[i][j-1]):
                 # 대각선 방향 올 수 있음(가로, 세로, 대각선)
@@ -423,7 +443,7 @@ def main():
     # [print(dp[o]) for o in range(N)]
 
     print(sum(dp[-1][-1]))
-            
+
     return
 
 
